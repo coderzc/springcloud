@@ -1,0 +1,11 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        server-addr: 127.0.0.1:8848
+        shared-dataids: dal.yaml,producer.yaml # 共享配置
+        refreshable-dataids: producer.yaml # 支持自动刷新的配置
+        group: DEFAULT_GROUP # 可以用来区分多环境
+
+#Data ID = ${spring.cloud.nacos.config.prefix}-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension} 最终拼接出来的就是：producer-service-dev.yaml  （一定要注意约定！）
+#Group = ${spring.cloud.nacos.config.group}

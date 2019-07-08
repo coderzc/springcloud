@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+    <script src="https://cdn.bootcss.com/axios/0.19.0/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <script src="https://cdn.bootcss.com/qs/6.7.0/qs.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <table border="1px" width="600px">
+        <tr>
+            <td>ID</td>
+            <td>姓名</td>
+            <td>年龄</td>
+        </tr>
+        <tr v-for="info in infos">
+            <td>{{ info.id }}</td>
+            <td>{{ info.name }}</td>
+            <td>{{ info.age }}</td>
+        </tr>
+    </table>
+</div>
+
+
+<script>
+    let myaxios = axios.create({
+        baseURL: 'http://' + document.location.hostname + ':8919', //后端网关地址
+        timeout: 3000, //超时时间
+        withCredentials: true,
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+    });
+
+    const vm = new Vue({
+        el: '#app',
+        data: {
+            param_id: null,
+            infos: [],
+            myparams: {
+                id: "1001",
+                ids: ["1001", "1002", "1003"],
+                paramInfo: {
+                    param: "lalala"
+                }
+            }
+        },
+        methods: {
+            axios_send() {
+                myaxios({
+                    method: 'get',
+                    url: '/consumer-service/queryProducer', //请求consumer服务
+                    params: {
+                        id: this.param_id
+                    }
+                }).then((response) => {
+                    let res = response.data;
+                    this.infos = res.data;
+                }).catch((error) => {
+                    console.log(error)
+                });
+            },
+            axios_send_post() {
+                myaxios({
+                    method: 'post',
+                    url: '/producer-service/queryInfoById',//直接请求producer服务
+                    data: this.myparams
+                }).then((response) => {
+                    let res = response.data;
+                    this.infos = res.data;
+                }).catch((error) => {
+                    console.log(error)
+                });
+            },
+            axios_send_post_form() {
+                myaxios({
+                    method: 'post',
+                    url: '/producer-service/queryInfoById',//直接请求producer服务
+                    data: this.myparams,
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                    },
+                    /**
+                     当Content-Type为application/x-www-form-urlencoded时即为表单提交方式时
+                     (spring后端如果不使用@RequestBody去接受默认就是按这是方式编码，如果前后端都支持application/json，还在推荐使用json方式传输参数)，
+                     请求的body中参数需要经过序列化处理，这里使用qs库进行序列化
+
+                     数组序列化方式总共有3种 只有第二种java不识别
+                     qs.stringify({ a: [1, 2, 3 ] }, { arrayFormat: 'indices' });  ===> 'a[0]=1&a[1]=2&a[2]=3' (qs 默认方式)
+                     qs.stringify( { a: [1, 2, 3 ]} , { arrayFormat: 'brackets' }); ===> 'a[]=1&a[]=2&a[]=3'
+                     qs.stringify( {a: [1, 2, 3 ]}, { arrayFormat: 'repeat' } ); ===> 'a=1&a=2&a=3'
+                     对象序列化方式 默认是[],可以改成. 主要看后端能解析那种 java 只能解析点
+                     allowDots: true {paramInfo:{param: "lalala"}} ==> paramInfo.param=lalala
+                     */
+                    transformRequest: [function (data) { //将json序列化成表单提交的字符串
+                        return Qs.stringify(data, {allowDots: true, arrayFormat: 'repeat'});
+                    }],
+                }).then((response) => {
+                    let res = response.data;
+                    this.infos = res.data;
+                }).catch((error) => {
+                    console.log(error)
+                });
+            }
+        }, mounted() {// vue 组建挂载后
+            this.axios_send();
+            // this.axios_send_post();
+            // this.axios_send_post_form();
+        },
+
+    });
+
+</script>
+</body>
+</html>

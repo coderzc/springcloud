@@ -1,0 +1,70 @@
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8761/eureka/
+#
+#
+#server:
+#  port: 8919
+#spring:
+#  application:
+#    name: GATEWAY-SERVICE
+#  cloud:
+#    gateway:
+#      # 关于转发路径配置：https://www.jianshu.com/p/c8ac84e820cc
+#      # 此处配置表示开启自动映射Eureka下发的路由
+#      discovery:
+#        locator:
+#          enabled: true
+#          lowerCaseServiceId: true # 将服务Id转为小写字母
+#          predicates:
+#            - name: Path
+#              args:
+#                pattern: "'/'+serviceId+'/**'" # 转发请求的url匹配规则为 /{serviceId}/xxx   serviceId为服务Id的小写
+#          filters:
+#            - name: Hystrix
+#              args:
+#                name: serviceId
+#                fallbackUri: "'forward:/fallback'"
+#            # Gateway默认转发是全路径的，设置StripPrefix=1表示从Path的 二级url路径转发 即 /serviceId/xxx 将会转发到 /xxx ,也可以用下面的RewritePath来更加灵活的实现这个功能
+#            - StripPrefix=1
+#      #            - name: RewritePath
+#      #              args:
+#      #                regexp: "'/' + serviceId + '/(?<xxx>.*)'" # 将 /serviceId/xxx 映射为 对应服务的/xxx
+#      #                replacement:  "'/${xxx}'"
+#      # 其他自定义的路由转发
+#      routes:
+#        - id: demo
+#          predicates:
+#            - Path=/demo/**
+#          uri: https://example.org
+#          filters:
+#            - RewritePath=/demo/(?<segment>.*), /$\{segment}
+#        # 开放跨域
+#      globalcors:
+#        corsConfigurations:
+#          '[/**]':
+#            allowedOrigins: "*"
+#            allowedMethods: "*"
+#            allowedHeaders: "*"
+#            allowCredentials: true
+#            maxAge: 3600
+#
+#
+## actuator 监控配置
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: "*"
+#      base-path: /admin
+#
+#
+## hystrix 线程池隔离，3秒后自动超时
+#hystrix:
+#  command:
+#    HystrixCommandKey:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 3000
