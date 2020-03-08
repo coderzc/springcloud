@@ -8,7 +8,10 @@ import com.zc.api.model.InfoRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -21,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RefreshScope
-public class ProducerServerClientController implements ProducerServerClient {
+public class ProducerServerClientController {
 
     @Value("${server.port}")
     private String port;
@@ -29,7 +32,10 @@ public class ProducerServerClientController implements ProducerServerClient {
     @Value("${myconfig.desc:not find config}")
     private String configTest;
 
-    @Override
+    @RequestMapping(
+            value = {"/queryInfoById"},
+            method = {RequestMethod.POST}
+    )
     public Map<String, Object> queryInfoById(InfoRequest request) {
         Map<String, Object> resultMap = new HashMap<>();
 

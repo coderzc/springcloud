@@ -10,6 +10,7 @@ import java.util.Map;
 
 /**
  * Created by coderzc on 2019-02-20
+ * 给调用方提供的Feign api
  */
 
 @FeignClient("PRODUCER-SERVICE")

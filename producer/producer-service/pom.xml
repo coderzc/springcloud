@@ -26,13 +26,6 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-        <!--TODO Mysql 驱动 这个放到dal jar 包里就回变成最新版本不知道怎么回事，必须放在这里版本才有效-->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.39</version>
-        </dependency>
-
         <!-- 添加自己定义的client-api模块-->
         <dependency>
             <groupId>com.zc</groupId>
