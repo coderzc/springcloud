@@ -75,7 +75,8 @@ public class EncodeDecodeColumnInterceptor implements Interceptor {
             }
 
             Object target = invocation.getTarget();
-            if (Proxy.isProxyClass(target.getClass())) { // 防止多级代理对象，被执行多次，只对真实对象做处理
+            // 防止多级代理对象，被执行多次，只对真实对象做处理
+            if (Proxy.isProxyClass(target.getClass())) {
                 return invocation.proceed();
             }
 
