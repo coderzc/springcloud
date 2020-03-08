@@ -53,7 +53,7 @@ public class EncodeDecodeColumnInterceptor implements Interceptor {
             logger.info("start init config");
             String encodeColumnConfig = encryptionConfig.getEncodeMapperConfig();
             if (StringUtils.isEmpty(encodeColumnConfig)) {
-                logger.warn("encodeColumnConfig is empty");
+                logger.warn("encryptionConfig is empty");
             } else {
                 mapperConfigurationMap = JSON.parseObject(encodeColumnConfig, new TypeReference<HashMap<String, MapperConfigModel>>() {
                 });
