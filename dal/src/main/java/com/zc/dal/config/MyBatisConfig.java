@@ -1,6 +1,8 @@
 package com.zc.dal.config;
 
+import com.zc.dal.plugin.encryption.interceptor.EncodeDecodeFieldInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -14,5 +16,10 @@ import org.springframework.context.annotation.Configuration;
 public class MyBatisConfig {
     public MyBatisConfig() {
         System.out.println("------------------- MyBatisConfig配置Bean启动初始化 -------------------");
+    }
+
+    @Bean
+    public EncodeDecodeFieldInterceptor getEncodeDecodeFieldInterceptor() {
+        return new EncodeDecodeFieldInterceptor();
     }
 }
