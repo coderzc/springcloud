@@ -37,10 +37,10 @@ import java.util.regex.Pattern;
 @Intercepts
         ({@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
                 @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
-public class EncodeDecodeFieldInterceptor implements Interceptor {
-    private static final Logger logger = LoggerFactory.getLogger(EncodeDecodeFieldInterceptor.class);
+public class EncodeDecodeColumnInterceptor implements Interceptor {
+    private static final Logger logger = LoggerFactory.getLogger(EncodeDecodeColumnInterceptor.class);
 
-    private static final String ENCRYPTION_COLUMN_SUFFIX = "_encrypt";
+    private static final String ENCRYPTION_COLUMN_SUFFIX = "_cipher";
 
     static HashMap<String, MapperConfigModel> mapperConfigurationMap = new HashMap<String, MapperConfigModel>();
 
@@ -237,7 +237,7 @@ public class EncodeDecodeFieldInterceptor implements Interceptor {
             }
             logger.info("plugin cost time :{}ms", (System.currentTimeMillis() - start));
         } catch (Exception e) {
-            logger.error("EncodeDecodeFieldInterceptor intercept error:", e);
+            logger.error("EncodeDecodeColumnInterceptor intercept error:", e);
         }
 
         return invocation.proceed();

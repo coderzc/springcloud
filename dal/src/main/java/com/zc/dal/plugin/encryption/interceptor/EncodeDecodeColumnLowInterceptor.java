@@ -13,7 +13,7 @@ import java.sql.Connection;
 @Intercepts
         ({@Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
                 @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class})})
-public class EncodeDecodeFieldLowInterceptor extends EncodeDecodeFieldInterceptor {
+public class EncodeDecodeColumnLowInterceptor extends EncodeDecodeColumnInterceptor {
 }
 
 

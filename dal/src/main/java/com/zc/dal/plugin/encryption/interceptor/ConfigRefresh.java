@@ -33,7 +33,7 @@ public class ConfigRefresh {
             if (StringUtils.isEmpty(encodeColumnConfig)) {
                 logger.warn("encodeColumnConfig is empty");
             } else {
-                EncodeDecodeFieldInterceptor.mapperConfigurationMap = JSON.parseObject(encodeColumnConfig, new TypeReference<HashMap<String, MapperConfigModel>>() {
+                EncodeDecodeColumnInterceptor.mapperConfigurationMap = JSON.parseObject(encodeColumnConfig, new TypeReference<HashMap<String, MapperConfigModel>>() {
                 });
             }
         } catch (Exception e) {

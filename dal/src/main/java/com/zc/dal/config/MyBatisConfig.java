@@ -1,6 +1,6 @@
 package com.zc.dal.config;
 
-import com.zc.dal.plugin.encryption.interceptor.EncodeDecodeFieldInterceptor;
+import com.zc.dal.plugin.encryption.interceptor.EncodeDecodeColumnInterceptor;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,7 +19,7 @@ public class MyBatisConfig {
     }
 
     @Bean
-    public EncodeDecodeFieldInterceptor getEncodeDecodeFieldInterceptor() {
-        return new EncodeDecodeFieldInterceptor();
+    public EncodeDecodeColumnInterceptor getEncodeDecodeColumnInterceptor() {
+        return new EncodeDecodeColumnInterceptor();
     }
 }
