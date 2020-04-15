@@ -1,7 +1,9 @@
 package com.zc.consumer.controller;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.zc.api.clients.producer.ProducerServerClient;
 import com.zc.api.model.InfoRequest;
+import com.zc.api.service.producer.DemoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,7 +23,10 @@ import java.util.Objects;
 public class ConsumerController {
 
     @Autowired
-    ProducerServerClient producerServerClient;
+    private ProducerServerClient producerServerClient;
+
+    @Reference(group = "defaultService")
+    private DemoService demoService;
 
     @RequestMapping(value = "/queryProducer", method = RequestMethod.GET)
     public Map query(String id) {
@@ -45,6 +50,11 @@ public class ConsumerController {
 
 
         return map;
+    }
+
+    @RequestMapping(value = "/queryProducer/dubbo", method = RequestMethod.GET)
+    public String queryBubbo(String id) {
+        return demoService.sayName(id);
     }
 
     /**

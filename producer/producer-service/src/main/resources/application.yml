@@ -1,13 +1,23 @@
 #spring:
 #  application:
 #    name: PRODUCER-SERVICE
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/
+#  profiles:
+#    active: dev
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 127.0.0.1:8848 # nacos 注册中心
+#
+#dubbo:
+#  registry:
+#    address: nacos://127.0.0.1:8848 # nacos 注册中心
+#  application:
+#    name: PRODUCER-SERVICE
+#  protocol:
+#    name: dubbo
+#    port: 5567
+#
 #server:
 #  port: 8083
-
-#feign:
-#  hystrix:
-#    enabled: true
+#myconfig:
+#  desc: 这是一个描述
