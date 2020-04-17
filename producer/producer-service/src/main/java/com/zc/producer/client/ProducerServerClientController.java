@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zc.api.model.InfoRequest;
+import com.zc.dal.model.UserInfo;
+import com.zc.producer.KafkaProducer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +31,9 @@ public class ProducerServerClientController {
 
     @Value("${myconfig.desc:not find config}")
     private String configTest;
+
+    @Autowired
+    private KafkaProducer kafkaProducer;
 
     @RequestMapping(
             value = {"/queryInfoById"},
@@ -69,5 +75,11 @@ public class ProducerServerClientController {
     @GetMapping("/get_config")
     public String getConfig() {
         return configTest;
+    }
+
+    @GetMapping("/send_kafka")
+    public String sendKafka(UserInfo userInfo) {
+        kafkaProducer.asyncSend("hello_topic", String.valueOf(System.currentTimeMillis()), userInfo);
+        return "send over";
     }
 }
