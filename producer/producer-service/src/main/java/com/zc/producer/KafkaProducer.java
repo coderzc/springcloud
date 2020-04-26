@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import java.util.concurrent.ExecutionException;
+
 @Component
 public class KafkaProducer {
     @Autowired
@@ -57,12 +59,12 @@ public class KafkaProducer {
     }
 
 
-    public void send(String topic, Object message) {
-        kafkaTemplate.send(topic, message);
+    public void send(String topic, Object message) throws ExecutionException, InterruptedException {
+        kafkaTemplate.send(topic, message).get();
     }
 
-    public void send(String topic, String key, Object message) {
-        kafkaTemplate.send(topic, key, message);
+    public void send(String topic, String key, Object message) throws ExecutionException, InterruptedException {
+        kafkaTemplate.send(topic, key, message).get();
     }
 
     public void asyncSend(String topic, String key, Object message) {
