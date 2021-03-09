@@ -1,5 +1,4 @@
-# springcloud
-SpringCloud 全家桶 Demo
+# SpringCloud 全家桶 Demo
 
 ##### 由于文件太大，自行下载nacos：https://github.com/alibaba/nacos/releases
 ##### 启动nacos后将 ./nacos/export_config/ 下的配置文件导入nacos中，具体关于nacos启动请看./nacos/README.md
